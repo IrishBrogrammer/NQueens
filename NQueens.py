@@ -1,8 +1,5 @@
-# Trying to solve n queens , starting with 4x4
-
-
-#
-
+# N Queens solution
+import sys
 
 def CloneBoard( board ) :
     newBoard = []
@@ -13,31 +10,14 @@ def CloneBoard( board ) :
         newBoard.append( [] )
         for x in range( 0 , boardSize ) :
             newBoard[row].append( board[row][x] )    
-    
     return newBoard
     
-
-
-
-
 def UpdateItem( board , xPos ,yPos , value ) :
     board[yPos][xPos] = value 
     return board
  
  
 def GetItem( board ,xPos , yPos ) :
-    
-    size = len( board )
-    
-    if xPos > size :
-        print " X to large at " + xPos
-        return "F"
-    
-    if yPos > size :
-        print " Y to large at " + yPos
-        return "F"
-    
-    
     return board[yPos][xPos]
  
 def generateBoard( size ) :
@@ -99,35 +79,30 @@ globalCount = 0
 def findSolution( currentBoard , currentY ) :
 
     if  currentY >= len(currentBoard ) :
-        print "Solution found "
         global globalCount
         globalCount = globalCount + 1
-        print "\n"
-        return True
+        return
         
     # Go through each element in the row
     # If its free place a queen there and pass on that board state for the nextCol
     newBoard  = []
     boardSize = len( currentBoard )
-    for row in range( 0 , boardSize)  :
-        spaceVal = GetItem( currentBoard ,row , currentY )
-        
-        if spaceVal == "F" :
-            return
-        
-        if spaceVal == "o" : 
+    for row in range( 0 , boardSize)  :           
+        if GetItem( currentBoard ,row , currentY ) == "o" : 
             newBoard = CloneBoard( currentBoard )
             newBoard = placeQueen( newBoard , row, currentY )
             findSolution( newBoard , currentY + 1)
-            
-    return False
+    return 
 
 
 
 def main() :
-    board = generateBoard( 8 )
+
+    boardSize = sys.argv[1]
+    
+    board = generateBoard( int( boardSize ) )
     findSolution( board , 0)
-    print globalCount
+    print "Number of solutions = " + str(globalCount)
     
 
 main()
