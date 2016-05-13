@@ -63,16 +63,9 @@ def placeQueen( board ,xPos , yPos  ) :
 
 # Mark of the squares no longer eligibile for positions
 def markQueensZone( board , xPos , yPos ) :
-    board = markHorizional( board , xPos , yPos )
     board = markVertical( board , xPos , yPos   )    
     board = markPosAxis( board ,xPos , yPos )
     board = markNegAxis( board ,xPos , yPos )
-
-def markHorizional( board , xPos , yPos  ) :
-    for row in range( 0 , len(board ) ) : 
-        if row != xPos :
-            board = UpdateItem( board, row , yPos , 'x' )    
-    return board
 
 # Only need to mark downwards due to algo
 def markVertical( board , xPos , yPos  ) : 
@@ -127,7 +120,6 @@ def findSolution( currentBoard , currentY ) :
         
         if spaceVal == "F" :
             return
-        
         
         if spaceVal == "o" : 
             newBoard = CloneBoard( currentBoard )
