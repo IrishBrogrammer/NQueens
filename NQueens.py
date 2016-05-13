@@ -64,40 +64,34 @@ def placeQueen( board ,xPos , yPos  ) :
 # Mark of the squares no longer eligibile for positions
 def markQueensZone( board , xPos , yPos ) :
     board = markVertical( board , xPos , yPos   )    
-    board = markPosAxis( board ,xPos , yPos )
-    board = markNegAxis( board ,xPos , yPos )
-
+    board = markAxis( board , xPos , yPos , 1 , PosAxisCheck )
+    board = markAxis( board , xPos , yPos , -1 , NegAxisCheck  )
+    return board
+     
 # Only need to mark downwards due to algo
 def markVertical( board , xPos , yPos  ) : 
     for column in range( yPos  + 1, len( board ) )  :
         board = UpdateItem( board , xPos , column , 'x' )
     return board
 
-def markPosAxis( board , xPos , yPos ) : 
+def PosAxisCheck( x , size ) :
+     return x < size 
+
+def NegAxisCheck( x , size ) :       
+    return x > -1
+
+def markAxis( board , xPos , yPos , xAlt , xCheck ) : 
     boardSize = len( board )
     
-    # mark \  
-    dX = xPos + 1
+    dX = xPos + xAlt
     dY = yPos + 1
-    while ( dX < boardSize and dY < boardSize ) :
+    while ( xCheck( dX , boardSize ) and dY < boardSize ) :
         board = UpdateItem( board , dX , dY , 'x' )
-        dX = dX + 1
+        dX = dX + xAlt
         dY = dY + 1
     
     return board
- 
-def markNegAxis( board , xPos , yPos ) : 
-    boardSize = len( board )
-    
-    # mark /  
-    dX = xPos - 1
-    dY = yPos + 1
-    while ( dX > -1 and dY < boardSize ) :
-        board = UpdateItem( board , dX , dY , 'x' )
-        dX = dX - 1
-        dY = dY + 1
-    
-    return board
+
  
 
 globalCount = 0
